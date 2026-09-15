@@ -1,0 +1,86 @@
+server:
+  port: ${PORT:5000}
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: zenve-admin-backend
+  profiles:
+    active: ${DB_DRIVER:h2}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  jackson:
+    default-property-inclusion: non_null
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-super-secret-key-for-zenve-admin-please-override-in-prod}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5174}
+  seed:
+    admin-name: ${SEED_ADMIN_NAME:Zenve Admin}
+    admin-email: ${SEED_ADMIN_EMAIL:admin@zenve.in}
+    admin-password: ${SEED_ADMIN_PASSWORD:Admin@123}
+  # Doctor-facing backend (vd-backend). Approve/reject decisions made here are
+  # pushed there so a doctor can (or still can't) log in. Must match that
+  # app's app.admin.internal-secret.
+  doctor-app:
+    base-url: ${DOCTOR_APP_BASE_URL:http://localhost:8080/api}
+    internal-secret: ${DOCTOR_APP_INTERNAL_SECRET:change-this-shared-secret}
+
+---
+# ---------------------------------------------------------------------------
+# Profile: mysql — activated when DB_DRIVER=mysql
+# Requires a running MySQL server and the `vetcare` schema (see database/schema.sql,
+# though Hibernate will also create/update tables automatically).
+# ---------------------------------------------------------------------------
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:doctortest}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:Vasanth@zenve}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+app:
+  database:
+    driver: mysql
+    host: ${DB_HOST:localhost}:${DB_PORT:3306}
+    name: ${DB_NAME:vetcare}
+    file-path: ""
+
+---
+# ---------------------------------------------------------------------------
+# Profile: h2 (default) — activated when DB_DRIVER is unset or =h2
+# Zero-setup embedded file database, so `mvn spring-boot:run` works with no
+# external services. The file lives under ./data and behaves like the JSON
+# file store described in the frontend: both this admin backend and the
+# doctor-facing backend can point DB_FILE_PATH at the same location to share
+# data, and the Database page reports its size/last-write time directly.
+# ---------------------------------------------------------------------------
+spring:
+  config:
+    activate:
+      on-profile: h2
+  datasource:
+    url: jdbc:h2:file:${DB_FILE_PATH:./data/vetcare};AUTO_SERVER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+app:
+  database:
+    driver: h2
+    host: ${DB_FILE_PATH:./data/vetcare}
+    name: vetcare
+    file-path: ${DB_FILE_PATH:./data/vetcare}

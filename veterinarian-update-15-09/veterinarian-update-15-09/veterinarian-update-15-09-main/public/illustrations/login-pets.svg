@@ -1,0 +1,119 @@
+<svg width="520" height="520" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="blob" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="dogBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2B25C"/>
+      <stop offset="100%" stop-color="#E29A3C"/>
+    </linearGradient>
+    <linearGradient id="dogEar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C97F2B"/>
+      <stop offset="100%" stop-color="#B76F22"/>
+    </linearGradient>
+    <linearGradient id="catBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5EDE1"/>
+      <stop offset="100%" stop-color="#E7DBC8"/>
+    </linearGradient>
+    <linearGradient id="catPatch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5B6A72"/>
+      <stop offset="100%" stop-color="#455158"/>
+    </linearGradient>
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#03181D" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- backdrop blob -->
+  <circle cx="260" cy="252" r="230" fill="url(#blob)"/>
+  <circle cx="260" cy="252" r="230" fill="url(#glow)"/>
+
+  <!-- decorative rings -->
+  <circle cx="260" cy="252" r="196" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1.5" fill="none"/>
+  <circle cx="90" cy="120" r="5" fill="#FFFFFF" fill-opacity="0.5"/>
+  <circle cx="430" cy="150" r="4" fill="#FFFFFF" fill-opacity="0.4"/>
+  <circle cx="70" cy="380" r="3.5" fill="#FFFFFF" fill-opacity="0.4"/>
+  <path d="M420 360 l10 0 M425 355 l0 10" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+  <path d="M96 330 l8 0 M100 326 l0 8" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="262" cy="418" rx="150" ry="16" fill="#03181D" fill-opacity="0.22"/>
+
+  <g filter="url(#softShadow)">
+
+    <!-- CAT (left, sitting) -->
+    <g>
+      <!-- tail -->
+      <path d="M148 372 C112 372 96 330 118 300 C134 280 158 288 154 308 C150 326 128 322 130 344 C132 360 148 362 160 356"
+            stroke="url(#catBody)" stroke-width="20" stroke-linecap="round" fill="none"/>
+      <!-- body -->
+      <path d="M118 402 C118 340 158 300 206 300 C254 300 288 340 288 402 L288 408 C288 412 284 416 280 416 L126 416 C122 416 118 412 118 408 Z" fill="url(#catBody)"/>
+      <!-- chest patch -->
+      <path d="M178 340 C178 380 184 404 204 416 L226 416 C220 396 216 366 214 336 Z" fill="#FDF9F2" opacity="0.7"/>
+      <!-- head -->
+      <circle cx="206" cy="268" r="58" fill="url(#catBody)"/>
+      <!-- ears -->
+      <path d="M162 236 L142 190 L192 222 Z" fill="url(#catBody)"/>
+      <path d="M250 236 L270 190 L220 222 Z" fill="url(#catBody)"/>
+      <path d="M166 228 L154 202 L184 220 Z" fill="#E7B7A6"/>
+      <path d="M246 228 L258 202 L228 220 Z" fill="#E7B7A6"/>
+      <!-- grey patch on head -->
+      <path d="M170 232 C170 208 186 196 206 196 C202 216 198 238 204 262 C186 262 170 250 170 232 Z" fill="url(#catPatch)"/>
+      <!-- face -->
+      <circle cx="186" cy="270" r="6.5" fill="#2A2E33"/>
+      <circle cx="226" cy="270" r="6.5" fill="#2A2E33"/>
+      <circle cx="188" cy="268" r="2" fill="#FFFFFF"/>
+      <circle cx="228" cy="268" r="2" fill="#FFFFFF"/>
+      <path d="M206 282 L200 290 L212 290 Z" fill="#D98E8E"/>
+      <path d="M206 290 C202 296 192 298 186 294" stroke="#2A2E33" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M206 290 C210 296 220 298 226 294" stroke="#2A2E33" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- whiskers -->
+      <path d="M158 274 L120 268 M158 282 L120 284" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="2" stroke-linecap="round"/>
+      <path d="M254 274 L292 268 M254 282 L292 284" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="2" stroke-linecap="round"/>
+      <!-- paws -->
+      <ellipse cx="168" cy="410" rx="18" ry="10" fill="#FDF9F2"/>
+      <ellipse cx="244" cy="410" rx="18" ry="10" fill="#FDF9F2"/>
+    </g>
+
+    <!-- DOG (right, sitting, slightly forward) -->
+    <g transform="translate(30,14)">
+      <!-- tail -->
+      <path d="M356 330 C392 316 410 336 402 356 C396 372 372 368 372 352" stroke="url(#dogBody)" stroke-width="18" stroke-linecap="round" fill="none"/>
+      <!-- body -->
+      <path d="M270 412 C266 336 306 288 340 288 C376 288 414 332 412 412 C412 418 408 422 402 422 L280 422 C274 422 270 418 270 412 Z" fill="url(#dogBody)"/>
+      <!-- chest -->
+      <path d="M320 330 C316 366 320 398 332 422 L352 422 C348 396 348 358 348 328 Z" fill="#FCE3BD"/>
+      <!-- head -->
+      <circle cx="342" cy="248" r="62" fill="url(#dogBody)"/>
+      <!-- ears -->
+      <path d="M292 224 C270 214 258 240 268 270 C280 296 302 292 306 272 C310 250 302 232 292 224 Z" fill="url(#dogEar)"/>
+      <path d="M392 224 C414 214 426 240 416 270 C404 296 382 292 378 272 C374 250 382 232 392 224 Z" fill="url(#dogEar)"/>
+      <!-- snout -->
+      <path d="M312 258 C312 288 326 306 342 306 C358 306 372 288 372 258 C372 244 358 236 342 236 C326 236 312 244 312 258 Z" fill="#FCE9CE"/>
+      <!-- nose -->
+      <ellipse cx="342" cy="266" rx="12" ry="9" fill="#2A2E33"/>
+      <path d="M342 275 L342 286 M342 286 C336 292 328 292 322 288 M342 286 C348 292 356 292 362 288" stroke="#2A2E33" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- eyes -->
+      <circle cx="318" cy="238" r="7" fill="#2A2E33"/>
+      <circle cx="366" cy="238" r="7" fill="#2A2E33"/>
+      <circle cx="320" cy="235" r="2.2" fill="#FFFFFF"/>
+      <circle cx="368" cy="235" r="2.2" fill="#FFFFFF"/>
+      <!-- eyebrow spots -->
+      <ellipse cx="304" cy="214" rx="6" ry="4" fill="#C97F2B"/>
+      <ellipse cx="380" cy="214" rx="6" ry="4" fill="#C97F2B"/>
+      <!-- paws -->
+      <ellipse cx="304" cy="416" rx="20" ry="11" fill="#FCE3BD"/>
+      <ellipse cx="380" cy="416" rx="20" ry="11" fill="#FCE3BD"/>
+    </g>
+
+  </g>
+
+  <!-- little heart accent -->
+  <path d="M260 96 c-6-10 -22-10 -22 2 c0 10 22 22 22 22 s22-12 22-22 c0-12 -16-12 -22-2z"
+        fill="#E3B65C" fill-opacity="0.85"/>
+</svg>

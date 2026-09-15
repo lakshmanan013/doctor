@@ -1,0 +1,171 @@
+.appt-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appt-date-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 8px;
+  box-shadow: var(--shadow-soft);
+}
+
+.appt-date-btn {
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  color: var(--text-faint);
+  display: flex;
+  transition: all .2s;
+}
+
+.appt-date-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.appt-date-label {
+  padding: 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.appt-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.appt-filter-btn {
+  border-radius: var(--radius-pill);
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  transition: all .2s;
+}
+
+.appt-filter-btn:hover {
+  color: var(--primary);
+}
+
+.appt-filter-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.appt-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.appt-row:last-child {
+  border-bottom: none;
+}
+
+.appt-row-type {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.appt-empty {
+  padding: 40px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-faint);
+}
+
+/* Calendar / card / time-slot variant (secondary layout) */
+
+.calendar-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.time-slot {
+  width: 96px;
+  flex-shrink: 0;
+}
+
+.time-slot-inner {
+  padding: 16px;
+  text-align: center;
+}
+
+.time-slot-hour {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.time-slot-period {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+}
+
+.appt-card {
+  width: 100%;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--card-border);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  padding: 24px;
+  transition: box-shadow .25s;
+}
+
+.appt-card:hover {
+  box-shadow: var(--shadow-soft);
+}
+
+.appt-card.tone-success { border-color: rgba(34,197,94,.2); background: var(--success-bg); }
+.appt-card.tone-info { border-color: rgba(59,130,246,.2); background: var(--info-bg); }
+.appt-card.tone-primary { border-color: rgba(var(--primary-rgb),.2); background: var(--primary-light); }
+.appt-card.tone-warning { border-color: rgba(245,158,11,.2); background: var(--warning-bg); }
+.appt-card.tone-danger { border-color: rgba(239,68,68,.2); background: var(--danger-bg); }
+
+.appt-card-left {
+  display: flex;
+  gap: 20px;
+}
+
+.appt-card-avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.appt-card-name {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.appt-card-meta {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.appt-card-info {
+  margin-top: 12px;
+  display: flex;
+  gap: 24px;
+  color: var(--text-muted);
+  font-size: 14px;
+}

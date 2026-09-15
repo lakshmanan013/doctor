@@ -1,0 +1,686 @@
+/* ==========================================================
+   PRESCRIPTION LAYOUT
+========================================================== */
+
+.rx-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .rx-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   FORM GRIDS
+========================================================== */
+
+.rx-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.rx-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .rx-grid-3,
+  .rx-grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ==========================================================
+   VOICE PRESCRIPTION
+========================================================== */
+
+.rx-mic-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--primary-light);
+  border: 1px solid var(--border);
+  padding: 16px;
+}
+
+.rx-mic-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s;
+}
+
+.rx-mic-btn:hover {
+  transform: scale(1.05);
+}
+
+.rx-mic-btn-active {
+  background: #e53e3e;
+  animation: rx-mic-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes rx-mic-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.45); }
+  70% { box-shadow: 0 0 0 14px rgba(229, 62, 62, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(229, 62, 62, 0); }
+}
+
+.rx-mic-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.rx-mic-desc {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--text-faint);
+  line-height: 1.5;
+}
+
+/* ==========================================================
+   ADD MEDICINE CHIP
+========================================================== */
+
+.rx-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.rx-chip:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+
+/* ==========================================================
+   FEE SUMMARY
+========================================================== */
+
+.rx-fee-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--border);
+  background: var(--surface-subtle, #f8fafc);
+  margin: 12px 0;
+}
+
+.rx-fee-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.rx-fee-summary-total {
+  font-weight: 700;
+  color: var(--text);
+  border-top: 1px dashed var(--border);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+/* ==========================================================
+   MEDICINE ROW
+========================================================== */
+
+.rx-med-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr 0.7fr auto;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.rx-med-row:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.12);
+}
+
+@media (max-width: 900px) {
+  .rx-med-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.rx-med-remove {
+  color: var(--text-faint);
+  transition: color 0.2s;
+}
+
+.rx-med-remove:hover {
+  color: var(--danger);
+}
+
+.rx-med-empty {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-faint);
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.rx-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+/* ==========================================================
+   RX LIVE PREVIEW — ZENVE CLINIC LETTERHEAD
+   Teal/cyan banner header + boxed sections, matching the
+   printed prescription document.
+========================================================== */
+
+.rx-preview-wrap {
+  position: sticky;
+  top: 20px;
+
+  /* teal letterhead palette, scoped to the preview only */
+  --rx-teal-1: #0b6e86;
+  --rx-teal-2: #22b6c8;
+  --rx-teal-header: #0f6d5f;
+  --rx-teal-tint: #eefaf7;
+  --rx-teal-tint-border: rgba(15, 109, 95, 0.16);
+  --rx-blue-accent: #2f6fed;
+  --rx-box-bg: #f7f8fa;
+  --rx-box-border: #eef0f3;
+}
+
+.rx-preview {
+  position: relative;
+  height: fit-content;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--rx-box-border);
+  border-radius: 18px;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 24px 48px -20px rgba(15, 23, 42, 0.22);
+  padding: 0;
+}
+
+/* ==========================================================
+   HEADER BANNER
+========================================================== */
+
+.rx-preview-header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 22px 28px;
+  background: linear-gradient(120deg, var(--rx-teal-1), var(--rx-teal-2));
+  color: #fff;
+}
+
+.rx-preview-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rx-preview-mark {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.rx-preview-logo {
+  width: 40px;
+  height: 40px;
+  display: block;
+  object-fit: contain;
+}
+
+.rx-preview-clinic {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.rx-preview-tagline {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 3px;
+}
+
+.rx-preview-doctitle {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.rx-preview-doc-label {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+}
+
+.rx-preview-doc-date {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px;
+}
+
+.rx-preview-faint {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 6px;
+}
+
+/* ==========================================================
+   PATIENT INFORMATION STRIP
+========================================================== */
+
+.rx-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  font-size: 14px;
+
+  background: var(--rx-teal-tint);
+  border-bottom: 1px solid var(--rx-teal-tint-border);
+
+  padding: 16px 28px;
+}
+
+.rx-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--rx-teal-1);
+}
+
+.rx-eyebrow-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--rx-teal-1);
+  flex-shrink: 0;
+}
+
+.rx-preview-value {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--text);
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+/* ==========================================================
+   BODY CONTENT
+========================================================== */
+
+.rx-preview-body {
+  padding: 22px 28px 26px;
+}
+
+.rx-preview-block {
+  margin-top: 18px;
+}
+
+.rx-preview-block:first-child {
+  margin-top: 0;
+}
+
+.rx-preview-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.rx-preview-2col:first-child {
+  margin-top: 0;
+}
+
+.rx-preview-2col .rx-preview-block {
+  margin-top: 0;
+}
+
+/* boxed value used for Complaint / Diagnosis / Instructions /
+   Pet food / Notes */
+.rx-preview-box {
+  margin-top: 8px;
+  border-left: 3px solid var(--rx-blue-accent);
+  background: var(--rx-box-bg);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 18px;
+}
+
+.rx-preview-empty {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+/* ==========================================================
+   MEDICINES TABLE
+========================================================== */
+
+.rx-med-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  font-size: 13px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.rx-med-table thead th {
+  background: var(--rx-teal-header);
+  color: #ffffff;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 9px 12px;
+}
+
+.rx-med-table thead th:last-child,
+.rx-med-table tbody td:last-child {
+  text-align: right;
+}
+
+.rx-med-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--rx-box-border);
+  vertical-align: middle;
+  color: var(--text-muted);
+}
+
+.rx-med-table tbody tr:nth-child(odd) td {
+  background: #fafbfc;
+}
+
+.rx-med-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rx-med-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--rx-blue-accent);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+  margin-right: 8px;
+}
+
+.rx-med-name {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.rx-med-dosage {
+  display: block;
+  margin-left: 28px;
+  margin-top: 2px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+/* ==========================================================
+   VACCINATION PILL
+========================================================== */
+
+.rx-vaccine-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   FEE CARD
+========================================================== */
+
+.rx-fee-card {
+  margin-top: 8px;
+  margin-left: auto;
+  width: fit-content;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--warning-bg);
+  border: 1px dashed rgba(180, 83, 9, 0.25);
+}
+
+.rx-fee-card-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.rx-fee-card-total {
+  font-weight: 800;
+  color: var(--warning-text);
+  border-top: 1px dashed rgba(180, 83, 9, 0.3);
+  padding-top: 6px;
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+/* ==========================================================
+   FOOTER / SIGNATURE
+========================================================== */
+
+.rx-preview-footer {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rx-box-border);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rx-preview-footer-note {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--text-faint);
+}
+
+.rx-preview-sign-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 170px;
+}
+
+.rx-preview-sign-line::before {
+  content: "";
+  display: block;
+  width: 170px;
+  border-bottom: 1px solid var(--text-faint);
+}
+
+.rx-preview-sign-line span {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ==========================================================
+   PRINT / PDF EXPORT
+========================================================== */
+
+@media print {
+  .rx-preview-wrap {
+    position: static;
+  }
+
+  .rx-preview {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    background: #ffffff;
+  }
+
+  /* Keep each logical block intact instead of letting the
+     page boundary cut through the middle of it */
+  .rx-preview-header,
+  .rx-preview-grid,
+  .rx-preview-block,
+  .rx-preview-2col,
+  .rx-med-table tr,
+  .rx-preview-footer {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .rx-eyebrow,
+  .rx-preview-faint {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
+
+/* ==========================================================
+   RESPONSIVE PREVIEW
+========================================================== */
+
+@media (max-width: 700px) {
+  .rx-preview-header,
+  .rx-preview-grid,
+  .rx-preview-body {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .rx-preview-header {
+    flex-direction: column;
+  }
+
+  .rx-preview-doctitle {
+    text-align: left;
+  }
+
+  .rx-preview-brand {
+    align-items: center;
+  }
+
+  .rx-preview-mark {
+    width: 46px;
+    height: 46px;
+  }
+
+  .rx-preview-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .rx-preview-clinic {
+    font-size: 16px;
+  }
+
+  .rx-preview-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rx-preview-2col {
+    grid-template-columns: 1fr;
+  }
+
+  .rx-med-table {
+    font-size: 12px;
+  }
+
+  .rx-fee-card {
+    margin-left: 0;
+    width: 100%;
+  }
+}

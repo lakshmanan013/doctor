@@ -1,0 +1,62 @@
+.fu-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fu-row:last-child {
+  border-bottom: none;
+}
+
+.fu-date {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--danger-text);
+}
+
+.fu-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all .2s;
+}
+
+.fu-action:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.fu-whatsapp {
+  border-color: rgba(34, 197, 94, .2);
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.fu-whatsapp:hover {
+  background: #DCFCE7;
+  color: var(--success-text);
+}
+
+.fu-icon-btn {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 9px;
+  color: var(--text-faint);
+  transition: all .2s;
+}
+
+.fu-icon-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
