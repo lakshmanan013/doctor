@@ -25,6 +25,14 @@ public class DoctorProfile {
 
     private String speciality;
 
+    private String city;
+
+    private Integer pincode;
+
+    private Integer experience;
+
+
+
     private String councilRegistration;
 
     private String clinicHospital;
@@ -161,6 +169,32 @@ public class DoctorProfile {
 
     public void setSlotLength(Integer slotLength) {
         this.slotLength = slotLength;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(Integer pincode) {
+        this.pincode = pincode;
+    }
+
+
+
+    public Integer getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Integer experience) {
+        this.experience = experience;
     }
 
     public boolean isVeterinaryRegistrationVerified() {

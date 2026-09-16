@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 public class DoctorProfileService {
 
     private final DoctorProfileRepository repository;
+    private final ZippyCrmSyncService zippyCrmSyncService;
 
     public DoctorProfileService(
-            DoctorProfileRepository repository) {
+            DoctorProfileRepository repository,
+            ZippyCrmSyncService zippyCrmSyncService) {
         this.repository = repository;
+        this.zippyCrmSyncService = zippyCrmSyncService;
     }
 
     /**
@@ -75,7 +78,18 @@ public class DoctorProfileService {
         existing.setSlotLength(
                 profile.getSlotLength());
 
-        return repository.save(existing);
+        existing.setCity(
+                profile.getCity());
+
+        existing.setPincode(
+                profile.getPincode());
+
+        existing.setExperience(
+                profile.getExperience());
+
+        DoctorProfile saved = repository.save(existing);
+        zippyCrmSyncService.syncDoctor(saved);
+        return saved;
     }
 
     /**
@@ -107,6 +121,8 @@ public class DoctorProfileService {
                         "Unknown verification item: " + item);
         }
 
-        return repository.save(existing);
+        DoctorProfile saved = repository.save(existing);
+        zippyCrmSyncService.syncDoctor(saved);
+        return saved;
     }
 }

@@ -28,6 +28,9 @@ const EMPTY = {
   speciality: "",
   council: "",
   clinic: "",
+  city: "",
+  pincode: "",
+  experience: "",
   phone: "",
   email: "",
   signature: "",
@@ -111,6 +114,15 @@ export default function DoctorProfile() {
           clinic:
             data?.clinicHospital ?? "",
 
+          city:
+            data?.city ?? "",
+
+          pincode:
+            data?.pincode ?? "",
+
+          experience:
+            data?.experience ?? "",
+
           phone:
             data?.phone || authDoctor?.phone || "",
 
@@ -143,10 +155,10 @@ export default function DoctorProfile() {
           stateCouncilSyncVerified:
             data?.stateCouncilSyncVerified ?? false,
         });
-      } catch (error) {
+      } catch (err) {
         console.error(
-          "Failed to load doctor profile:",
-          error
+          "Error loading doctor profile:",
+          err
         );
 
         toast.error(
@@ -190,6 +202,20 @@ export default function DoctorProfile() {
 
         clinicHospital:
           form.clinic.trim(),
+
+        city:
+          form.city.trim(),
+
+        pincode:
+          form.pincode === ""
+            ? null
+            : Number(form.pincode),
+
+        experience:
+          form.experience === ""
+            ? null
+            : Number(form.experience),
+
 
         phone:
           form.phone.trim(),
@@ -247,6 +273,15 @@ export default function DoctorProfile() {
 
         clinic:
           saved?.clinicHospital ?? "",
+
+        city:
+          saved?.city ?? "",
+
+        pincode:
+          saved?.pincode ?? "",
+
+        experience:
+          saved?.experience ?? "",
 
         phone:
           saved?.phone ?? "",
@@ -394,6 +429,49 @@ export default function DoctorProfile() {
                 onChange={(e) =>
                   update(
                     "clinic",
+                    e.target.value
+                  )
+                }
+              />
+            </Field>
+
+            <Field label="Experience (years)">
+              <Input
+                type="number"
+                min="0"
+                placeholder="e.g. 5"
+                value={form.experience}
+                onChange={(e) =>
+                  update(
+                    "experience",
+                    e.target.value
+                  )
+                }
+              />
+            </Field>
+
+            <Field label="City">
+              <Input
+                type="text"
+                placeholder="e.g. Bangalore"
+                value={form.city}
+                onChange={(e) =>
+                  update(
+                    "city",
+                    e.target.value
+                  )
+                }
+              />
+            </Field>
+
+            <Field label="Pincode">
+              <Input
+                type="number"
+                placeholder="e.g. 560001"
+                value={form.pincode}
+                onChange={(e) =>
+                  update(
+                    "pincode",
                     e.target.value
                   )
                 }

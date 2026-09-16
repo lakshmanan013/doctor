@@ -234,6 +234,18 @@ export default function PatientProfile() {
             </p>
           </div>
 
+          {/* EMAIL */}
+
+          <div>
+            <p className="eyebrow">
+              Registered Email
+            </p>
+
+            <p className="cell-title">
+              {patient.ownerEmail || "—"}
+            </p>
+          </div>
+
           {/* ADDRESS */}
 
           <div style={{ gridColumn: "1 / -1" }}>

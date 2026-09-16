@@ -145,52 +145,121 @@ export default function Prescription() {
       setGeneratingPdf(false);
     }
   };
-  const send=async(type)=>{
-    try{
-      const rx=await submit();
-      if(!rx)return;
-      const message=content();
-      if(type==="whatsapp"){
-        if(!patient?.ownerPhone)return toast.error("This patient has no owner phone number on file");
-        const opened=openWhatsApp(patient.ownerPhone,message);
-        if(!opened)return toast.error("This patient has no owner phone number on file");
+  const patientEmail = (patient?.ownerEmail || patient?.email || patient?.owner?.email || "").trim();
+
+  const getEmailContent = () => {
+    const medRows = medicines
+      .filter((m) => m.medicineId || m.dosage)
+      .map((m, i) => {
+        const med = allMeds.find((x) => String(x.id) === String(m.medicineId));
+        let line = `${i + 1}. ${med?.name || "Medicine"}`;
+        if (m.dosage) line += ` | Dose: ${m.dosage}`;
+        if (m.frequency) line += ` | Frequency: ${m.frequency}`;
+        if (m.duration) line += ` | Duration: ${m.duration}`;
+        if (m.quantity) line += ` | Qty: ${m.quantity}`;
+        if (m.instructions) line += `\n   Instructions: ${m.instructions}`;
+        return line;
+      });
+
+    return [
+      `ZENVE VETERINARY CLINIC - PRESCRIPTION`,
+      `==================================================`,
+      `Doctor: ${doctor?.fullName || "Veterinary Doctor"}`,
+      doctor?.qualification ? `Qualification: ${doctor.qualification}` : null,
+      doctor?.clinicName ? `Clinic: ${doctor.clinicName}` : null,
+      doctor?.phone ? `Doctor Contact: ${doctor.phone}` : null,
+      `Date: ${visitDate}`,
+      `--------------------------------------------------`,
+      `PATIENT DETAILS`,
+      `Patient Name: ${patient?.name || "—"}`,
+      patient?.petId ? `Pet ID: ${patient.petId}` : null,
+      `Species & Breed: ${patient?.species || "—"}${patient?.breed ? ` (${patient.breed})` : ""}`,
+      patient?.gender ? `Gender: ${patient.gender}` : null,
+      patient?.weight != null ? `Weight: ${patient.weight} kg` : null,
+      `Owner: ${patient?.ownerName || "—"}`,
+      patientEmail ? `Registered Email: ${patientEmail}` : null,
+      patient?.ownerPhone ? `Phone: ${patient.ownerPhone}` : null,
+      `--------------------------------------------------`,
+      complaint ? `Presenting Complaint:\n${complaint}\n` : null,
+      diagnosis ? `Diagnosis:\n${diagnosis}\n` : null,
+      `PRESCRIBED MEDICINES:`,
+      medRows.length > 0 ? medRows.join("\n\n") : "No medicines prescribed.",
+      `--------------------------------------------------`,
+      instructions ? `Instructions & Advice:\n${instructions}\n` : null,
+      petFood ? `Diet / Pet Food Recommendation:\n${petFood}\n` : null,
+      vaccineName.trim() ? `Vaccination Administered: ${vaccineName.trim()}${vaccineDueDate ? ` (Next Due: ${vaccineDueDate})` : ""}\n` : null,
+      showFeesOnRx ? `Consultation Fee: ₹${Number(consultationFee || 0).toFixed(2)}\nMedicine Charges: ₹${medicineTotal.toFixed(2)}\nTotal Amount: ₹${grandTotal.toFixed(2)}\n` : null,
+      notes ? `Doctor's Notes:\n${notes}\n` : null,
+      `==================================================`,
+      `This is a computer-generated prescription from Zenve Veterinary Clinic.`,
+    ].filter(Boolean).join("\n");
+  };
+
+  const send = async (type) => {
+    try {
+      const rx = await submit();
+      if (!rx) return;
+      const message = content();
+      if (type === "whatsapp") {
+        if (!patient?.ownerPhone) return toast.error("This patient has no owner phone number on file");
+        const opened = openWhatsApp(patient.ownerPhone, message);
+        if (!opened) return toast.error("This patient has no owner phone number on file");
         // Best-effort audit log on the backend — its NOT_CONFIGURED/FAILED
         // status doesn't matter here since wa.me (opened above) is what
         // actually delivers the message, not this call.
-        sendWhatsApp({phoneNumber:patient.ownerPhone,message,type:"PRESCRIPTION",provider:"MANUAL"}).catch(()=>{});
-        toast.success("WhatsApp send successfully");
+        sendWhatsApp({ phoneNumber: patient.ownerPhone, message, type: "PRESCRIPTION", provider: "MANUAL" }).catch(() => {});
+        toast.success("WhatsApp opened successfully");
         return;
       }
       let result;
-      if(type==="sms"){
-        if(!patient?.ownerPhone)return toast.error("This patient has no owner phone number on file");
-        result=await sendSms({phoneNumber:toE164(patient.ownerPhone),message,type:"PRESCRIPTION",provider:"MANUAL"});
+      if (type === "sms") {
+        if (!patient?.ownerPhone) return toast.error("This patient has no owner phone number on file");
+        result = await sendSms({ phoneNumber: toE164(patient.ownerPhone), message, type: "PRESCRIPTION", provider: "MANUAL" });
       }
-      if(type==="email"){
-        if(!patient?.ownerEmail)return toast.error("This patient has no owner email on file");
-        result=await sendEmail({recipient:patient.ownerEmail,subject:"Veterinary prescription",message,type:"PRESCRIPTION",provider:"MANUAL"});
+      if (type === "email") {
+        if (!patientEmail) {
+          return toast.error("This patient has no registered email address on file. Please add an email address in the Patient profile.");
+        }
+        const subject = `Veterinary Prescription: ${patient?.name || "Patient"}${patient?.petId ? ` (${patient.petId})` : ""} - Zenve Veterinary Clinic`;
+        const emailBody = getEmailContent();
+        result = await sendEmail({
+          recipient: patientEmail,
+          subject,
+          message: emailBody,
+          type: "PRESCRIPTION",
+          provider: "MANUAL",
+        });
       }
       // Reflect what the backend actually did, instead of assuming delivery:
       // a saved "Pending"/"Not configured" log is not the same as a sent message.
-      const status=(result?.status||"").toLowerCase();
-      const label=type==="sms"?"SMS":"Mail";
-      if(status==="sent"){
-        toast.success(`${label} send successfully`);
-      }else if(status==="failed"){
-        toast.error(result?.errorMessage||`Could not send ${type}`);
-      }else{
-        toast(result?.errorMessage||`${type} was logged but not sent yet — the ${type} provider isn't configured on the server.`,{icon:"⚠️"});
+      const status = (result?.status || "").toLowerCase();
+      const label = type === "sms" ? "SMS" : "Prescription email";
+      if (status === "sent") {
+        toast.success(type === "email" ? `Prescription sent to registered email (${patientEmail})` : `${label} sent successfully`);
+      } else if (status === "failed") {
+        toast.error(result?.errorMessage || `Could not send ${type}`);
+      } else {
+        toast(result?.errorMessage || `${type} was logged but not sent yet — the ${type} provider isn't configured on the server.`, { icon: "⚠️" });
       }
-    }catch(e){
-      toast.error(e?.response?.data?.message||`Could not send ${type}`);
+    } catch (e) {
+      toast.error(e?.response?.data?.message || `Could not send ${type}`);
     }
-  }
+  };
   return <div className="rx-layout">
     <div className="panel stack-4">
       <div className="rx-grid-3">
         <Field label="Patient" className="col-span-2"><Select value={patientId} onChange={e=>setPatientId(e.target.value)}><option value="">Select patient</option>{patients.map(p=><option key={p.id} value={p.id}>{p.name} · {p.species} · {p.ownerName||""}</option>)}</Select></Field>
         <Field label="Weight"><Input value={patient?.weight!=null?`${patient.weight} kg`:""} readOnly /></Field>
       </div>
+      {patient && (
+        <div className="rx-patient-meta-banner">
+          <span className="rx-meta-tag">Owner: <strong>{patient.ownerName || "—"}</strong></span>
+          <span className="rx-meta-tag">
+            Registered Email: {patientEmail ? <strong className="text-email-ok">📧 {patientEmail}</strong> : <span className="text-email-missing">⚠️ No email registered</span>}
+          </span>
+          {patient.ownerPhone && <span className="rx-meta-tag">Phone: <strong>{patient.ownerPhone}</strong></span>}
+        </div>
+      )}
       <div className="rx-mic-box">
         <button onClick={toggleVoiceCapture} className={`rx-mic-btn${listening?" rx-mic-btn-active":""}`}>{listening?<FiMicOff size={16}/>:<FiMic size={16}/>}</button>
         <div><p className="rx-mic-title">Voice → Prescription</p><p className="rx-mic-desc">{listening?"Listening... tap the mic again to stop. Speech is added to Notes below.":"Tap the mic and dictate — it's transcribed straight into the Notes field below."}</p></div>
@@ -270,7 +339,11 @@ export default function Prescription() {
 
         <div className="rx-preview-grid">
           <div><p className="rx-eyebrow">Patient</p><p className="rx-preview-value">{patient?.name||"—"} · {patient?.species||""} · {patient?.breed||""}</p></div>
-          <div><p className="rx-eyebrow">Owner</p><p className="rx-preview-value">{patient?.ownerName||"—"}</p></div>
+          <div>
+            <p className="rx-eyebrow">Owner</p>
+            <p className="rx-preview-value">{patient?.ownerName||"—"}</p>
+            {patientEmail && <p style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>{patientEmail}</p>}
+          </div>
           <div><p className="rx-eyebrow">Weight</p><p className="rx-preview-value">{patient?.weight!=null?`${patient.weight} kg`:"—"}</p></div>
           <div><p className="rx-eyebrow">Date</p><p className="rx-preview-value">{visitDate}</p></div>
         </div>

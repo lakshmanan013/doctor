@@ -18,14 +18,12 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final NotificationService notificationService;
     private final DoctorAppNotifier doctorAppNotifier;
-    private final ZippyCrmSyncService zippyCrmSyncService;
 
     public DoctorService(DoctorRepository doctorRepository, NotificationService notificationService,
-            DoctorAppNotifier doctorAppNotifier, ZippyCrmSyncService zippyCrmSyncService) {
+            DoctorAppNotifier doctorAppNotifier) {
         this.doctorRepository = doctorRepository;
         this.notificationService = notificationService;
         this.doctorAppNotifier = doctorAppNotifier;
-        this.zippyCrmSyncService = zippyCrmSyncService;
     }
 
     public DoctorsResponse list(String statusFilter) {
@@ -73,7 +71,6 @@ public class DoctorService {
                 doctor.getId());
 
         doctorAppNotifier.notifyApproved(doctor);
-        zippyCrmSyncService.syncDoctorApproved(doctor);
 
         return DoctorDto.from(doctor);
     }
@@ -95,7 +92,6 @@ public class DoctorService {
                 doctor.getId());
 
         doctorAppNotifier.notifyRejected(doctor);
-        zippyCrmSyncService.syncDoctorRejected(doctor);
 
         return DoctorDto.from(doctor);
     }
@@ -145,7 +141,6 @@ public class DoctorService {
                 doctor.getId());
 
         doctorAppNotifier.notifyAccountCreated(doctor, request.password());
-        zippyCrmSyncService.syncDoctorApproved(doctor);
 
         return DoctorDto.from(doctor);
     }
@@ -167,8 +162,6 @@ public class DoctorService {
                 "New doctor registration",
                 doctor.getFullName() + " signed up and is waiting for approval.",
                 doctor.getId());
-
-        zippyCrmSyncService.syncDoctor(doctor);
 
         return DoctorDto.from(doctor);
     }

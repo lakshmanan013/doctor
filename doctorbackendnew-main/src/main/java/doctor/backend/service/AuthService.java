@@ -35,6 +35,7 @@ public class AuthService {
     private final CustomUserDetailsService userDetailsService;
     private final AdminApprovalClient adminApprovalClient;
     private final PasswordResetMailer passwordResetMailer;
+    private final ZippyCrmSyncService zippyCrmSyncService;
 
     public AuthService(
             UserRepository userRepository,
@@ -43,7 +44,8 @@ public class AuthService {
             AuthenticationManager authenticationManager,
             CustomUserDetailsService userDetailsService,
             AdminApprovalClient adminApprovalClient,
-            PasswordResetMailer passwordResetMailer) {
+            PasswordResetMailer passwordResetMailer,
+            ZippyCrmSyncService zippyCrmSyncService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -51,6 +53,7 @@ public class AuthService {
         this.userDetailsService = userDetailsService;
         this.adminApprovalClient = adminApprovalClient;
         this.passwordResetMailer = passwordResetMailer;
+        this.zippyCrmSyncService = zippyCrmSyncService;
     }
 
     // =====================================================
@@ -60,13 +63,16 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
 
         String email = request.getEmail().trim().toLowerCase();
-        String phone = request.getPhone().trim();
 
         if (userRepository.existsByEmail(email)) {
             throw new BadRequestException("An account with this email already exists");
         }
 
-        if (userRepository.existsByPhone(phone)) {
+        String phone = (request.getPhone() == null || request.getPhone().isBlank())
+                ? null
+                : request.getPhone().trim();
+
+        if (phone != null && userRepository.existsByPhone(phone)) {
             throw new BadRequestException("An account with this phone number already exists");
         }
 
@@ -77,6 +83,10 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole("DOCTOR");
         user.setActive(true);
+
+        // Doctor registrations start PENDING. An admin must approve the
+        // registration (via the Zenve admin portal) before the doctor
+        // can log in.
         user.setApprovalStatus("PENDING");
 
         User saved = userRepository.save(user);
@@ -84,6 +94,9 @@ public class AuthService {
         // Let the admin backend know a new doctor is waiting for approval.
         // The account cannot log in until an admin approves it there.
         adminApprovalClient.notifyDoctorRegistered(saved);
+
+        // Sync pending doctor to Zippy CRM
+        zippyCrmSyncService.syncDoctor(saved);
 
         // No token on purpose: registering does not log the doctor in.
         return new AuthResponse(
@@ -128,7 +141,8 @@ public class AuthService {
         user.setActive(true);
         user.setApprovalStatus("APPROVED");
 
-        userRepository.save(user);
+        User saved = userRepository.save(user);
+        zippyCrmSyncService.syncDoctor(saved);
     }
 
     // =====================================================
@@ -191,7 +205,8 @@ public class AuthService {
 
         user.setApprovalStatus(status);
         user.setRejectionReason("REJECTED".equals(status) ? reason : null);
-        userRepository.save(user);
+        User saved = userRepository.save(user);
+        zippyCrmSyncService.syncDoctor(saved);
     }
 
     // =====================================================

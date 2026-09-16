@@ -39,6 +39,45 @@
 }
 
 /* ==========================================================
+   PATIENT META BANNER
+========================================================== */
+
+.rx-patient-meta-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 13px;
+  background: var(--surface-hover, rgba(0, 0, 0, 0.03));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 8px);
+  font-size: 12.5px;
+  margin-top: -6px;
+  animation: fadeIn 0.2s ease;
+}
+
+.rx-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+}
+
+.rx-meta-tag strong {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.text-email-ok {
+  color: #059669 !important;
+}
+
+.text-email-missing {
+  color: #e11d48 !important;
+  font-weight: 500;
+}
+
+/* ==========================================================
    VOICE PRESCRIPTION
 ========================================================== */
 

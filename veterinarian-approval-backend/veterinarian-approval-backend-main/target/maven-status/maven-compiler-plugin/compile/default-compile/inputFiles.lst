@@ -6,7 +6,6 @@ d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-ba
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\config\RestClientConfig.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\config\SecurityConfig.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\config\SeedProperties.java
-d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\config\ZippyCrmProperties.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\controller\AuthController.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\controller\DatabaseController.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\controller\DoctorController.java
@@ -44,5 +43,4 @@ d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-ba
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\service\DoctorAppNotifier.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\service\DoctorService.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\service\NotificationService.java
-d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\service\ZippyCrmSyncService.java
 d:\New folder\new docotor\veterinarian-approval-backend\veterinarian-approval-backend-main\src\main\java\com\zenve\admin\ZenveAdminBackendApplication.java

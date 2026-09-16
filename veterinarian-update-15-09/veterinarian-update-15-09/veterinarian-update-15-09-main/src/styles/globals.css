@@ -80,6 +80,79 @@
 }
 
 /* ==========================================================
+   DARK THEME TOKENS
+========================================================== */
+
+[data-theme="dark"],
+body.dark-theme,
+.dark {
+  /* Neutral surface */
+  --bg: #0B0F19;
+  --surface: #131B2E;
+  --border: #222F46;
+
+  /* Card border */
+  --card-border: #222F46;
+  --card-border-rgb: 34, 47, 70;
+
+  /* Text */
+  --text: #F8FAFC;
+  --text-muted: #94A3B8;
+  --text-faint: #64748B;
+
+  /* Brand light variant */
+  --primary-light: rgba(99, 102, 241, 0.18);
+  --accent-light: rgba(245, 158, 11, 0.18);
+
+  /* Status */
+  --success-bg: rgba(16, 185, 129, 0.15);
+  --success-text: #34D399;
+
+  --warning-bg: rgba(245, 158, 11, 0.15);
+  --warning-text: #FBBF24;
+
+  --danger-bg: rgba(239, 68, 68, 0.15);
+  --danger-text: #F87171;
+
+  --info-bg: rgba(59, 130, 246, 0.15);
+  --info-text: #60A5FA;
+
+  /* Shadows in dark mode */
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.25);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-pop: 0 16px 36px rgba(0, 0, 0, 0.5);
+
+  /* Glassmorphism Tokens for dark mode */
+  --glass-surface: rgba(19, 27, 46, 0.82);
+  --glass-surface-hover: rgba(24, 34, 58, 0.92);
+  --glass-surface-subtle: rgba(19, 27, 46, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(255, 255, 255, 0.2);
+  --glass-border-subtle: rgba(34, 47, 70, 0.8);
+  --glass-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-hover: 0 16px 40px 0 rgba(0, 0, 0, 0.45), inset 0 1px 2px 0 rgba(255, 255, 255, 0.1);
+
+  /* Theme-specific variables used across components */
+  --bg-surface: #131B2E;
+  --border-color: #222F46;
+  --text-secondary: #94A3B8;
+  --bg-main: #0B0F19;
+}
+
+[data-theme="dark"] body,
+body.dark-theme {
+  background: #0B0F19;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(30, 27, 75, 0.45) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(49, 46, 129, 0.35) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.6) 0px, transparent 55%),
+    radial-gradient(at 100% 100%, rgba(6, 78, 59, 0.25) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(30, 58, 138, 0.3) 0px, transparent 50%);
+  color: var(--text);
+}
+
+/* ==========================================================
    RESET
 ========================================================== */
 
@@ -222,6 +295,15 @@ h5 {
   z-index: 0;
   filter: blur(25px);
 }
+
+[data-theme="dark"] .app-shell::before {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(139, 92, 246, 0.08) 45%, transparent 70%);
+}
+
+[data-theme="dark"] .app-shell::after {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(59, 130, 246, 0.08) 45%, transparent 70%);
+}
+
 
 .app-main {
   flex: 1;

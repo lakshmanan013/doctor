@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Menu, Sun, Plus } from "lucide-react";
+import { Menu, Sun, Moon, Plus } from "lucide-react";
 
 import GlobalSearch from "./GlobalSearch";
 import NotificationBell from "./NotificationBell";
@@ -11,6 +11,7 @@ import { PAGE_META } from "../../constants/pageMeta";
 import { getPatients } from "../../services/patientService";
 import { getDoctorProfile } from "../../services/doctorProfileService";
 import { useAuth } from "../../hooks/useAuth";
+import { useTheme } from "../../hooks/useTheme";
 
 import "./Navbar.css";
 
@@ -31,6 +32,7 @@ function greeting() {
 export default function Navbar() {
   const { pathname } = useLocation();
   const { doctor: authDoctor } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
 
   const [newVisitOpen, setNewVisitOpen] =
     useState(false);
@@ -262,9 +264,11 @@ export default function Navbar() {
           <button
             type="button"
             className="navbar-icon-btn"
-            aria-label="Toggle theme"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={toggleTheme}
           >
-            <Sun size={18} />
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
           <button

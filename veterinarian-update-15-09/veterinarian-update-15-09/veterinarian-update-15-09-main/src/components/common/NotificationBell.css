@@ -361,3 +361,66 @@
   color: #4f46e5;
   text-decoration: underline;
 }
+
+/* Dark theme overrides for Notification Bell */
+[data-theme="dark"] .notif-trigger-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .notif-trigger-btn:hover,
+[data-theme="dark"] .notif-trigger-btn.active {
+  background: #334155;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+[data-theme="dark"] .notif-dropdown {
+  background: rgba(19, 27, 46, 0.95);
+  border-color: rgba(51, 65, 85, 0.9);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .notif-header {
+  border-bottom-color: rgba(51, 65, 85, 0.7);
+}
+
+[data-theme="dark"] .notif-title {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .notif-item {
+  border-bottom-color: rgba(51, 65, 85, 0.5);
+}
+
+[data-theme="dark"] .notif-item:hover {
+  background: rgba(51, 65, 85, 0.4);
+}
+
+[data-theme="dark"] .notif-item.unread {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+[data-theme="dark"] .notif-item-title {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .notif-item-msg {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .notif-footer {
+  border-top-color: rgba(51, 65, 85, 0.7);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+[data-theme="dark"] .notif-empty h5 {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .notif-empty-icon {
+  background: #1e293b;
+  color: #64748b;
+}
+

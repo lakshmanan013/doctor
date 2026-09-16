@@ -587,8 +587,8 @@ export default function Patients() {
                     </p>
 
                     <p className="cell-sub">
-                      {patient.ownerPhone ||
-                        "—"}
+                      {patient.ownerPhone || "—"}
+                      {patient.ownerEmail ? ` · ${patient.ownerEmail}` : ""}
                     </p>
 
                   </td>
