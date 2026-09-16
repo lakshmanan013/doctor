@@ -40,7 +40,7 @@ public class InternalDoctorStatusController {
     private final AdminIntegrationProperties properties;
 
     public InternalDoctorStatusController(AuthService authService, DoctorProfileService doctorProfileService,
-                                           UserRepository userRepository, AdminIntegrationProperties properties) {
+            UserRepository userRepository, AdminIntegrationProperties properties) {
         this.authService = authService;
         this.doctorProfileService = doctorProfileService;
         this.userRepository = userRepository;
@@ -50,8 +50,7 @@ public class InternalDoctorStatusController {
     @PostMapping("/status")
     public ResponseEntity<Void> updateStatus(
             @RequestHeader(value = SECRET_HEADER, required = false) String secret,
-            @Valid @RequestBody DoctorStatusUpdateRequest request
-    ) {
+            @Valid @RequestBody DoctorStatusUpdateRequest request) {
         checkSecret(secret);
 
         authService.updateApprovalStatus(request.getEmail(), request.getStatus(), request.getReason());
@@ -67,8 +66,7 @@ public class InternalDoctorStatusController {
     @PostMapping("/verify")
     public ResponseEntity<Void> verify(
             @RequestHeader(value = SECRET_HEADER, required = false) String secret,
-            @Valid @RequestBody DoctorVerificationUpdateRequest request
-    ) {
+            @Valid @RequestBody DoctorVerificationUpdateRequest request) {
         checkSecret(secret);
 
         User doctor = userRepository.findByEmail(request.getEmail())
@@ -87,14 +85,44 @@ public class InternalDoctorStatusController {
     @PostMapping("/create")
     public ResponseEntity<Void> create(
             @RequestHeader(value = SECRET_HEADER, required = false) String secret,
-            @Valid @RequestBody DoctorAccountCreateRequest request
-    ) {
+            @Valid @RequestBody DoctorAccountCreateRequest request) {
         checkSecret(secret);
 
         authService.createApprovedAccount(
                 request.getFullName(), request.getEmail(), request.getPhone(), request.getPassword());
 
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Internal endpoint for Zenve admin backend / ZippyCrmSyncService to fetch
+     * the doctor's qualification, speciality, consultation fee, and profile
+     * details.
+     */
+    @org.springframework.web.bind.annotation.GetMapping("/profile")
+    public ResponseEntity<doctor.backend.entity.DoctorProfile> getProfile(
+            @RequestHeader(value = SECRET_HEADER, required = false) String secret,
+            @org.springframework.web.bind.annotation.RequestParam(value = "email", required = false) String email,
+            @org.springframework.web.bind.annotation.RequestParam(value = "phone", required = false) String phone) {
+        checkSecret(secret);
+
+        User doctor = null;
+        if (email != null && !email.isBlank()) {
+            doctor = userRepository.findByEmail(email.trim().toLowerCase()).orElse(null);
+        }
+        if (doctor == null && phone != null && !phone.isBlank()) {
+            doctor = userRepository.findAll().stream()
+                    .filter(u -> u.getPhone() != null && (u.getPhone().equals(phone.trim())
+                            || phone.trim().endsWith(u.getPhone()) || u.getPhone().endsWith(phone.trim())))
+                    .findFirst().orElse(null);
+        }
+
+        if (doctor == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        doctor.backend.entity.DoctorProfile profile = doctorProfileService.getProfile(doctor.getId());
+        return ResponseEntity.ok(profile);
     }
 
     private void checkSecret(String secret) {

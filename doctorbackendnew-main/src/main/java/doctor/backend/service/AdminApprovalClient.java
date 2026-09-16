@@ -46,8 +46,7 @@ public class AdminApprovalClient {
         Map<String, String> body = Map.of(
                 "fullName", user.getFullName(),
                 "email", user.getEmail(),
-                "phone", user.getPhone() == null ? "" : user.getPhone()
-        );
+                "phone", user.getPhone() == null ? "" : user.getPhone());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

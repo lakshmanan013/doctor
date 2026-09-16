@@ -10,8 +10,7 @@ public class DoctorProfileService {
     private final DoctorProfileRepository repository;
 
     public DoctorProfileService(
-            DoctorProfileRepository repository
-    ) {
+            DoctorProfileRepository repository) {
         this.repository = repository;
     }
 
@@ -35,8 +34,7 @@ public class DoctorProfileService {
 
     public DoctorProfile saveProfile(
             Long userId,
-            DoctorProfile profile
-    ) {
+            DoctorProfile profile) {
 
         DoctorProfile existing = repository
                 .findByUserId(userId)
@@ -45,48 +43,37 @@ public class DoctorProfileService {
         existing.setUserId(userId);
 
         existing.setFullName(
-                profile.getFullName()
-        );
+                profile.getFullName());
 
         existing.setQualification(
-                profile.getQualification()
-        );
+                profile.getQualification());
 
         existing.setSpeciality(
-                profile.getSpeciality()
-        );
+                profile.getSpeciality());
 
         existing.setCouncilRegistration(
-                profile.getCouncilRegistration()
-        );
+                profile.getCouncilRegistration());
 
         existing.setClinicHospital(
-                profile.getClinicHospital()
-        );
+                profile.getClinicHospital());
 
         existing.setPhone(
-                profile.getPhone()
-        );
+                profile.getPhone());
 
         existing.setEmail(
-                profile.getEmail()
-        );
+                profile.getEmail());
 
         existing.setDigitalSignatureName(
-                profile.getDigitalSignatureName()
-        );
+                profile.getDigitalSignatureName());
 
         existing.setConsultationFee(
-                profile.getConsultationFee()
-        );
+                profile.getConsultationFee());
 
         existing.setFollowUpFee(
-                profile.getFollowUpFee()
-        );
+                profile.getFollowUpFee());
 
         existing.setSlotLength(
-                profile.getSlotLength()
-        );
+                profile.getSlotLength());
 
         return repository.save(existing);
     }
@@ -108,17 +95,16 @@ public class DoctorProfileService {
 
         switch (item) {
             case "VETERINARY_REGISTRATION" ->
-                    existing.setVeterinaryRegistrationVerified(true);
+                existing.setVeterinaryRegistrationVerified(true);
             case "KYC" ->
-                    existing.setKycVerified(true);
+                existing.setKycVerified(true);
             case "DIGITAL_SIGNATURE" ->
-                    existing.setDigitalSignatureVerified(true);
+                existing.setDigitalSignatureVerified(true);
             case "STATE_COUNCIL_SYNC" ->
-                    existing.setStateCouncilSyncVerified(true);
+                existing.setStateCouncilSyncVerified(true);
             default ->
-                    throw new doctor.backend.exception.BadRequestException(
-                            "Unknown verification item: " + item
-                    );
+                throw new doctor.backend.exception.BadRequestException(
+                        "Unknown verification item: " + item);
         }
 
         return repository.save(existing);

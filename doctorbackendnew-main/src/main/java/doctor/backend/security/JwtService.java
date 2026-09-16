@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@SuppressWarnings("null")
 public class JwtService {
 
     @Value("${app.jwt.secret}")

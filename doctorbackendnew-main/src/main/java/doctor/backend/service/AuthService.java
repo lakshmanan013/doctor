@@ -43,8 +43,7 @@ public class AuthService {
             AuthenticationManager authenticationManager,
             CustomUserDetailsService userDetailsService,
             AdminApprovalClient adminApprovalClient,
-            PasswordResetMailer passwordResetMailer
-    ) {
+            PasswordResetMailer passwordResetMailer) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -96,8 +95,7 @@ public class AuthService {
                 null,
                 saved.getApprovalStatus(),
                 "Your account has been created and is pending admin approval. " +
-                        "You'll be able to log in once an admin approves your registration."
-        );
+                        "You'll be able to log in once an admin approves your registration.");
     }
 
     // =====================================================
@@ -143,8 +141,7 @@ public class AuthService {
 
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, request.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(email, request.getPassword()));
         } catch (BadCredentialsException ex) {
             throw new BadCredentialsException("Invalid email or password");
         }
@@ -163,8 +160,7 @@ public class AuthService {
             if ("REJECTED".equals(status)) {
                 String reason = user.getRejectionReason();
                 throw new ForbiddenException(
-                        "Your registration was rejected" + (reason != null && !reason.isBlank() ? ": " + reason : ".")
-                );
+                        "Your registration was rejected" + (reason != null && !reason.isBlank() ? ": " + reason : "."));
             }
         }
 
@@ -180,8 +176,7 @@ public class AuthService {
                 user.getEmail(),
                 user.getPhone(),
                 user.getRole(),
-                token
-        );
+                token);
     }
 
     // =====================================================
@@ -314,7 +309,6 @@ public class AuthService {
                 user.getEmail(),
                 user.getPhone(),
                 user.getRole(),
-                null
-        );
+                null);
     }
 }

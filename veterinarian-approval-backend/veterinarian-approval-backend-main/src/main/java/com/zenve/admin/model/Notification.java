@@ -24,7 +24,7 @@ public class Notification {
     private String id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 30, columnDefinition = "varchar(30)")
     private NotificationType type;
 
     @Column(nullable = false)
@@ -33,7 +33,7 @@ public class Notification {
     @Column(nullable = false, length = 500)
     private String message;
 
-    @Column(nullable = false)
+    @Column(name = "`read`", nullable = false)
     @Builder.Default
     private boolean read = false;
 

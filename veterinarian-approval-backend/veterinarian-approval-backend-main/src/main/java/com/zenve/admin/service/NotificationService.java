@@ -31,11 +31,11 @@ public class NotificationService {
 
     @Transactional
     public void markRead(String id) {
-        Notification notification = notificationRepository.findById(id)
+        Notification notification = notificationRepository.findById(java.util.Objects.requireNonNull(id))
                 .orElseThrow(() -> ApiException.notFound("Notification not found"));
         if (!notification.isRead()) {
             notification.setRead(true);
-            notificationRepository.save(notification);
+            notificationRepository.save(java.util.Objects.requireNonNull(notification));
         }
     }
 
@@ -53,6 +53,6 @@ public class NotificationService {
                 .doctorId(doctorId)
                 .read(false)
                 .build();
-        notificationRepository.save(notification);
+        notificationRepository.save(java.util.Objects.requireNonNull(notification));
     }
 }

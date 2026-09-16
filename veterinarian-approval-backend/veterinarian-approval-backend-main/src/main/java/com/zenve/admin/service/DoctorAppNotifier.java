@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Pushes approve/reject decisions to the doctor-facing backend (vd-backend)
@@ -86,10 +87,10 @@ public class DoctorAppNotifier {
     private void post(String url, Map<String, String> body, String description) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set(SECRET_HEADER, properties.internalSecret());
+        headers.set(SECRET_HEADER, properties.internalSecret() != null ? properties.internalSecret() : "");
 
         try {
-            restTemplate.postForEntity(url, new HttpEntity<>(body, headers), Void.class);
+            restTemplate.postForEntity(Objects.requireNonNull(url), new HttpEntity<>(body, headers), Void.class);
         } catch (RestClientException ex) {
             // The decision is still recorded here either way — this is just
             // the notification that syncs the other app, so a temporary

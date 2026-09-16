@@ -7,7 +7,7 @@ spring:
   application:
     name: zenve-admin-backend
   profiles:
-    active: ${DB_DRIVER:h2}
+    active: ${DB_DRIVER:mysql}
   jpa:
     hibernate:
       ddl-auto: update
@@ -35,6 +35,12 @@ app:
   doctor-app:
     base-url: ${DOCTOR_APP_BASE_URL:http://localhost:8080/api}
     internal-secret: ${DOCTOR_APP_INTERNAL_SECRET:change-this-shared-secret}
+  zippy-crm:
+    enabled: ${ZIPPY_CRM_ENABLED:true}
+    base-url: ${ZIPPY_CRM_BASE_URL:http://127.0.0.1:8000}
+    db-url: ${ZIPPY_DB_URL:jdbc:mysql://localhost:3306/pet_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true}
+    db-user: ${ZIPPY_DB_USER:root}
+    db-password: ${ZIPPY_DB_PASSWORD:NewPassword@123}
 
 ---
 # ---------------------------------------------------------------------------
@@ -47,9 +53,9 @@ spring:
     activate:
       on-profile: mysql
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:doctortest}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:vetcare}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: ${DB_USER:root}
-    password: ${DB_PASSWORD:Vasanth@zenve}
+    password: ${DB_PASSWORD:NewPassword@123}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 app:

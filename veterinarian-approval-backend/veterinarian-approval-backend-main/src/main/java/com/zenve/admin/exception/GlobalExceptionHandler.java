@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> handleApiException(ApiException ex) {
-        return ResponseEntity.status(ex.getStatus()).body(new ErrorResponse(ex.getMessage()));
+        return ResponseEntity.status(java.util.Objects.requireNonNull(ex.getStatus())).body(new ErrorResponse(ex.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -45,6 +45,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
         log.error("Unhandled exception", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse("Something went wrong. Please try again."));
+                .body(new ErrorResponse(ex.getMessage() != null ? ex.getMessage() : "Unknown error"));
     }
 }

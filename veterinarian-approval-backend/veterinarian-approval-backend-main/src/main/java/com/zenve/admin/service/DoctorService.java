@@ -18,12 +18,14 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final NotificationService notificationService;
     private final DoctorAppNotifier doctorAppNotifier;
+    private final ZippyCrmSyncService zippyCrmSyncService;
 
     public DoctorService(DoctorRepository doctorRepository, NotificationService notificationService,
-                          DoctorAppNotifier doctorAppNotifier) {
+            DoctorAppNotifier doctorAppNotifier, ZippyCrmSyncService zippyCrmSyncService) {
         this.doctorRepository = doctorRepository;
         this.notificationService = notificationService;
         this.doctorAppNotifier = doctorAppNotifier;
+        this.zippyCrmSyncService = zippyCrmSyncService;
     }
 
     public DoctorsResponse list(String statusFilter) {
@@ -62,16 +64,16 @@ public class DoctorService {
         Doctor doctor = getOrThrow(id);
         doctor.setStatus(DoctorStatus.approved);
         doctor.setRejectionReason(null);
-        doctorRepository.save(doctor);
+        doctorRepository.save(java.util.Objects.requireNonNull(doctor));
 
         notificationService.notify(
                 NotificationType.doctor_approved,
                 "Doctor approved",
                 doctor.getFullName() + " was approved and can now access the platform.",
-                doctor.getId()
-        );
+                doctor.getId());
 
         doctorAppNotifier.notifyApproved(doctor);
+        zippyCrmSyncService.syncDoctorApproved(doctor);
 
         return DoctorDto.from(doctor);
     }
@@ -81,7 +83,7 @@ public class DoctorService {
         Doctor doctor = getOrThrow(id);
         doctor.setStatus(DoctorStatus.rejected);
         doctor.setRejectionReason((reason == null || reason.isBlank()) ? null : reason.trim());
-        doctorRepository.save(doctor);
+        doctorRepository.save(java.util.Objects.requireNonNull(doctor));
 
         String message = doctor.getFullName() + "'s registration was rejected"
                 + (doctor.getRejectionReason() != null ? " — " + doctor.getRejectionReason() : ".");
@@ -90,10 +92,10 @@ public class DoctorService {
                 NotificationType.doctor_rejected,
                 "Doctor rejected",
                 message,
-                doctor.getId()
-        );
+                doctor.getId());
 
         doctorAppNotifier.notifyRejected(doctor);
+        zippyCrmSyncService.syncDoctorRejected(doctor);
 
         return DoctorDto.from(doctor);
     }
@@ -113,7 +115,7 @@ public class DoctorService {
             case STATE_COUNCIL_SYNC -> doctor.setStateCouncilSyncVerified(true);
         }
 
-        doctorRepository.save(doctor);
+        doctorRepository.save(java.util.Objects.requireNonNull(doctor));
         doctorAppNotifier.notifyVerified(doctor, item);
 
         return DoctorDto.from(doctor);
@@ -134,16 +136,16 @@ public class DoctorService {
                 .qualification(request.qualification())
                 .status(DoctorStatus.approved)
                 .build();
-        doctorRepository.save(doctor);
+        doctorRepository.save(java.util.Objects.requireNonNull(doctor));
 
         notificationService.notify(
                 NotificationType.doctor_approved,
                 "Doctor account created",
                 doctor.getFullName() + "'s account was created by an admin and can log in now.",
-                doctor.getId()
-        );
+                doctor.getId());
 
         doctorAppNotifier.notifyAccountCreated(doctor, request.password());
+        zippyCrmSyncService.syncDoctorApproved(doctor);
 
         return DoctorDto.from(doctor);
     }
@@ -158,20 +160,21 @@ public class DoctorService {
                 .qualification(request.qualification())
                 .status(DoctorStatus.pending)
                 .build();
-        doctorRepository.save(doctor);
+        doctorRepository.save(java.util.Objects.requireNonNull(doctor));
 
         notificationService.notify(
                 NotificationType.doctor_registered,
                 "New doctor registration",
                 doctor.getFullName() + " signed up and is waiting for approval.",
-                doctor.getId()
-        );
+                doctor.getId());
+
+        zippyCrmSyncService.syncDoctor(doctor);
 
         return DoctorDto.from(doctor);
     }
 
     private Doctor getOrThrow(String id) {
-        return doctorRepository.findById(id)
+        return doctorRepository.findById(java.util.Objects.requireNonNull(id))
                 .orElseThrow(() -> ApiException.notFound("Doctor not found"));
     }
 }
